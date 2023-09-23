@@ -1,5 +1,10 @@
 import React from "react";
+import { Popular } from "../../features/popular/Popular";
 
 export const Home = () => {
-  return <p>Home</p>;
+  return (
+    <div>
+      <Popular />
+    </div>
+  );
 };

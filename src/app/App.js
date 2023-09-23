@@ -8,6 +8,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Root } from "../components/layout/Root";
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 export const App = () => {
   const router = createBrowserRouter(
@@ -20,8 +22,8 @@ export const App = () => {
   );
 
   return (
-    <div>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </div>
+    </Provider>
   );
 };

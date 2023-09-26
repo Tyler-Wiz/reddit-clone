@@ -1,16 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const getPopular = createAsyncThunk("popular/getData", async (url) => {
-  const response = await fetch(`https://www.reddit.com/r/popular/${url}/.json`);
-  const json = await response.json();
-  let data = json.data.children.map((child) => child.data);
-  return data;
-});
+export const getPopular = createAsyncThunk(
+  "popular/getData",
+  async (url, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://www.reddit.com/r/popular/${url}/.json`
+      );
+      const json = await response.json();
+      let data = json.data.children.map((child) => child.data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 const initialState = {
   popular: [],
   isLoading: false,
   isRejected: false,
+  dataError: "",
 };
 
 const PopularSlice = createSlice({
@@ -30,7 +40,12 @@ const PopularSlice = createSlice({
       };
     });
     builder.addCase(getPopular.rejected, (state, { payload }) => {
-      return { ...state, isLoading: false, isRejected: true };
+      return {
+        ...state,
+        isLoading: false,
+        isRejected: true,
+        dataError: payload,
+      };
     });
   },
 });

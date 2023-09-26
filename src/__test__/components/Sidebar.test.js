@@ -3,12 +3,21 @@ import { Sidebar } from "../../components/sidebar/Sidebar";
 import { BrowserRouter as Router } from "react-router-dom";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
 
 test("check if the feeds and favorite list disappear on button click", async () => {
+  const initialState = { output: 10 };
+  const mockStore = configureStore();
+  let store;
+  store = mockStore(initialState);
+
   render(
-    <Router>
-      <Sidebar />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Sidebar />
+      </Router>
+    </Provider>
   );
   // arrange
   const openIcon = screen.getAllByLabelText("open-menu");

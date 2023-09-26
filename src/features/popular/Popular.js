@@ -6,14 +6,12 @@ import { PopularShuffle } from "./PopularShuffle";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export const Popular = () => {
-  const { popular, isRejected, isLoading } = useSelector(popularList);
+  const { popular, isLoading } = useSelector(popularList);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPopular("hot"));
   }, [dispatch]);
-
-  // console.log(popular);
 
   return (
     <div>
@@ -30,7 +28,7 @@ export const Popular = () => {
         </div>
       ) : (
         <>
-          {popular.map((item, i) => (
+          {popular?.map((item, i) => (
             <ul key={i}>
               <PopularList popular={item} />
             </ul>

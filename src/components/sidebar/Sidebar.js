@@ -1,9 +1,11 @@
 import React from "react";
 import { favorites, multis, feeds } from "../../assets/data/data";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Visibility } from "../../hooks/Visibility";
 import { ToggleButton } from "../button/ToggleButton";
 import { SidebarList } from "./SidebarList";
+import { getSubredditPosts } from "../../features/subreddit/SubredditSlice";
+import { useDispatch } from "react-redux";
 
 export const Sidebar = () => {
   const {
@@ -12,6 +14,8 @@ export const Sidebar = () => {
     isVisibleSecond,
     setIsVisibleSecond,
   } = Visibility();
+
+  const dispatch = useDispatch();
 
   return (
     <section className="border-r-1 shadow-lg mr-10 px-10 py-10 h-full hover:overflow-y-auto">
@@ -45,15 +49,25 @@ export const Sidebar = () => {
         {isVisibleSecond && (
           <div aria-label="favorites-list">
             {favorites.map((item, i) => (
-              <li
-                className="flex items-center gap-3 justify-between mt-3"
-                key={i}>
-                <div className="flex items-center gap-2 justify-between font-bold">
-                  <img src={item.image} alt="favorite Icon" className="w-10 " />
-                  <p>{item.name}</p>
-                </div>
-                <p className=" cursor-pointer">{item.icon}</p>
-              </li>
+              <Link
+                to={`s/${item.path}`}
+                state={{ image: item.image, name: item.name }}
+                key={i}
+                onClick={() => dispatch(getSubredditPosts(item.name))}>
+                <li
+                  className="flex items-center gap-3 justify-between mt-3"
+                  key={i}>
+                  <div className="flex items-center gap-2 justify-between font-bold">
+                    <img
+                      src={item.image}
+                      alt="favorite Icon"
+                      className="w-10 rounded-full"
+                    />
+                    <p>{item.name}</p>
+                  </div>
+                  <p className=" cursor-pointer">{item.icon}</p>
+                </li>
+              </Link>
             ))}
           </div>
         )}

@@ -4,17 +4,17 @@ import { useDispatch } from "react-redux";
 import { FaHotjar, FaClock, FaRocket, FaAward } from "react-icons/fa";
 
 const subheader = [
-  { name: "hot", icon: <FaHotjar /> },
-  { name: "new", icon: <FaClock /> },
-  { name: "top", icon: <FaAward /> },
-  { name: "best", icon: <FaRocket /> },
-  { name: "rising", icon: <FaRocket /> },
+  { name: "hot", icon: <FaHotjar />, label: "hot-button" },
+  { name: "new", icon: <FaClock />, label: "new-button" },
+  { name: "top", icon: <FaAward />, label: "top-button" },
+  { name: "best", icon: <FaRocket />, label: "best-button" },
+  { name: "rising", icon: <FaRocket />, label: "rising-button" },
 ];
 
 export const PopularShuffle = () => {
   const dispatch = useDispatch();
   const [isActive, setIsActive] = useState({
-    activeIndex: "",
+    activeIndex: 0,
   });
 
   return (
@@ -22,6 +22,7 @@ export const PopularShuffle = () => {
       {subheader.map((item, i) => {
         return (
           <button
+            aria-label={item.label}
             key={i}
             className={` px-5 py-1 mr-4 text-white font-bold flex items-center gap-2 ${
               isActive.activeIndex === i ? " bg-redditOrange" : "bg-neutral"
